@@ -1,0 +1,8 @@
+{
+    "language": "language in English",
+    "error": {
+        "phoneNumber": {
+            "empty": "Phone Number Must Be Filled"
+        }
+    }
+}

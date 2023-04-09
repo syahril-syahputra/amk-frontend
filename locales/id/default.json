@@ -1,0 +1,8 @@
+{
+    "language": "Bahasa Indonesia",
+    "error": {
+        "phoneNumber": {
+            "empty": "Nomor HP Harus Diisi"
+        }
+    }
+}

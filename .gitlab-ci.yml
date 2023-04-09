@@ -1,0 +1,30 @@
+cache:
+    paths:
+        - node_modules/
+
+before_script:
+    - . ~/.bashrc
+    - yarn
+
+stages:
+    - build
+    - deploy
+
+build:
+    stage: build
+    script:
+        - whoami
+        - yarn build
+    artifacts:
+        paths:
+            - .next/
+    only:
+        - main
+
+deploy:
+    stage: deploy
+    script:
+        - pm2 delete cryptoswapuser || true
+        - pm2 start yarn --name "cryptoswapuser" -- start --port 3000
+    only:
+        - main

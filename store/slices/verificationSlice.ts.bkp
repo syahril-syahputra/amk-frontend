@@ -1,0 +1,30 @@
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { ConfirmationResult } from 'firebase/auth'
+
+export interface VerificationState {
+    email: string
+    phoneNumber: string
+    otpVerification?: ConfirmationResult
+}
+
+const initial: VerificationState = {
+    email: '',
+    phoneNumber: '',
+}
+const verificationSlice = createSlice({
+    name: 'verification',
+    initialState: initial,
+    reducers: {
+        verificationAdd: (state, actions: PayloadAction<VerificationState>) => {
+            state.email = actions.payload.email
+            state.phoneNumber = actions.payload.phoneNumber
+            state.otpVerification = actions.payload.otpVerification
+        },
+        verificationClear: (state) => {
+            state = initial
+        },
+    },
+})
+
+export const { verificationAdd, verificationClear } = verificationSlice.actions
+export default verificationSlice.reducer

@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html,
+    body {
+        @apply font-sans;
+    }
+}
+
+@font-face {
+    font-family: 'Prompt';
+    src: url('/fonts/Prompt/Prompt-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Prompt';
+    src: url('/fonts/Prompt/Prompt-SemiBold.ttf') format('truetype');
+    font-weight: bold;
+}
+@font-face {
+    font-family: 'Prompt';
+    src: url('/fonts/Prompt/Prompt-Bold.ttf') format('truetype');
+    font-weight: 800;
+}
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+a,
+a:link,
+a:visited,
+a:link:visited,
+a:hover,
+a:active {
+    text-decoration: none;
+    color: inherit;
+}

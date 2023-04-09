@@ -1,0 +1,47 @@
+/* tab modification */
+.ant-tabs-tab .ant-tabs-tab-btn {
+    padding: 10px 10px;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: #5367ff !important;
+    font-weight: 500;
+}
+
+.ant-tabs-tab .ant-tabs-tab-btn:hover {
+    color: #5367ff !important;
+}
+.ant-tabs-ink-bar {
+    background-color: #5367ff !important;
+}
+
+/*date picker modification*/
+.date-picker-with-icon {
+    display: flex;
+    align-items: center;
+    border: 0.5px solid #9295a6;
+    padding: 0px 12px;
+    border-radius: 6px;
+}
+
+.ant-spin-dot i {
+    background-color: #ffffff;
+}
+.custom-row-hover:hover td {
+    background: rgba(224, 248, 232, 1) !important;
+}
+.ant-switch {
+    background-color: #ccced9 !important;
+}
+
+.ant-switch-checked {
+    background-color: #5367ff !important;
+}
+.ant-upload-drag-container {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+}
