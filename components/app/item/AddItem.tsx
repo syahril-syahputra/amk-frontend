@@ -2,6 +2,9 @@ import { Button, Form, Input, InputNumber, Modal, Space } from 'antd'
 import { Button as MyButton } from '@/components/common/Button'
 import React, { useEffect, useState } from 'react'
 import { api } from '@/services/axios'
+import { RootState } from 'store/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItem } from 'store/slices/itemSlices'
 
 interface Props {
     isOpen: boolean
@@ -11,26 +14,25 @@ interface Props {
 
 function footer() {}
 function AddItem(props: Props) {
-    const [isLoading, setisLoading] = useState(false)
     const [name, setname] = useState('')
     const [price, setprice] = useState(0)
     const [desc, setdesc] = useState('')
+    const dispatch = useDispatch()
+    const itemState = useSelector((state: RootState) => state.item)
     const handleOk = async () => {
         try {
-            setisLoading(true)
-            const save = await api.post('/items', {
-                name,
-                price,
-                description: desc,
-            })
+            dispatch(
+                addItem({
+                    name,
+                    price,
+                    description: desc,
+                }) as any,
+            )
+
             setname('')
             setprice(0)
             setdesc('')
-            props.isSuccess(save.data)
-        } catch (handleOk) {
-        } finally {
-            setisLoading(false)
-        }
+        } catch (handleOk) {}
         props.setIsOpen(false)
     }
 
@@ -61,7 +63,7 @@ function AddItem(props: Props) {
                         key="submit"
                         type="primary"
                         size="sm"
-                        isLoading={isLoading}
+                        isLoading={itemState.status === 'loading'}
                         onClick={handleOk}
                     >
                         Submit

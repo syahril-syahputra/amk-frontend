@@ -2,6 +2,9 @@ import { Button, Form, Input, InputNumber, Modal, Space } from 'antd'
 import { Button as MyButton } from '@/components/common/Button'
 import React, { useEffect, useState } from 'react'
 import { api } from '@/services/axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { addCustomer } from 'store/slices/customerSlices'
+import { RootState } from 'store/store'
 
 interface Props {
     isOpen: boolean
@@ -10,26 +13,24 @@ interface Props {
 }
 
 function AddCustomer(props: Props) {
-    const [isLoading, setisLoading] = useState(false)
     const [name, setname] = useState('')
     const [address, setaddress] = useState('')
     const [phone, setphone] = useState('')
+    const dispatch = useDispatch()
+    const customerState = useSelector((state: RootState) => state.customer)
     const handleOk = async () => {
         try {
-            setisLoading(true)
-            const save = await api.post('/customer', {
-                name,
-                address,
-                phone,
-            })
+            dispatch(
+                addCustomer({
+                    name,
+                    address,
+                    phone,
+                }) as any,
+            )
             setname('')
             setaddress('')
             setphone('')
-            props.isSuccess(save.data)
-        } catch (handleOk) {
-        } finally {
-            setisLoading(false)
-        }
+        } catch (handleOk) {}
         props.setIsOpen(false)
     }
 
@@ -60,7 +61,7 @@ function AddCustomer(props: Props) {
                         key="submit"
                         type="primary"
                         size="sm"
-                        isLoading={isLoading}
+                        isLoading={customerState.status === 'loading'}
                         onClick={handleOk}
                     >
                         Submit

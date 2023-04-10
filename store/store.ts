@@ -9,9 +9,9 @@ import {
 
 import sampleSlice, { SampleState } from './slices/sampleSlice'
 import userSlice, { UserState } from './slices/userSlice'
-import verificationSlice, {
-    VerificationState,
-} from './slices/verificationSlice'
+import customerSlices, { CustomerState } from './slices/customerSlices'
+import itemSlices, { ItemState } from './slices/itemSlices'
+import orderSlices, { OrderState } from './slices/orderSlices'
 
 const persistConfig = {
     key: 'root',
@@ -22,7 +22,9 @@ const reducer = combineReducers({
     //add your slice heere
     sample: sampleSlice,
     user: userSlice,
-    verification: verificationSlice,
+    customer: customerSlices,
+    item: itemSlices,
+    order: orderSlices,
 })
 const persistedReducer = persistReducer(persistConfig, reducer)
 
@@ -50,11 +52,11 @@ const store = configureStore({
 initMessageListener(store)
 
 export interface RootState {
-    //add your state here
     sample: SampleState
     user: UserState
-    verification: VerificationState
-    // security: SecurityState
+    customer: CustomerState
+    item: ItemState
+    order: OrderState
 }
 export const persistor = persistStore(store)
 

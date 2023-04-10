@@ -101,7 +101,7 @@ const MemberSection = () => {
                     <ul className="bg-white capitalize shadow-xl w-full">
                         <Item href="/" name="customer" />
                         <Item href="/item" name="data item" />
-                        <Item href="/order" name="data order" />
+                        <Item href="/data" name="data order" />
                     </ul>
                 </nav>
             )}

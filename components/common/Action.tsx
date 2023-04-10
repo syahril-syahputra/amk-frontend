@@ -11,6 +11,7 @@ interface ActionProps {
 export default function Action(props: ActionProps) {
     return (
         <button
+            onClick={props.onClick}
             className={clsx(
                 props.className +
                     ' flex space-x-2 items-center justify-center rounded-lg text-[#5367FF] cursor-pointer hover:opacity-50',

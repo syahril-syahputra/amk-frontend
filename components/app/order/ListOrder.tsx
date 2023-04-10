@@ -2,82 +2,100 @@ import Action from '@/components/common/Action'
 import { Button } from '@/components/common/Button'
 import Container from '@/components/common/Container'
 import { api } from '@/services/axios'
-import {
-    DeleteFilled,
-    EditFilled,
-    MoreOutlined,
-    SearchOutlined,
-} from '@ant-design/icons'
+import { DeleteFilled, EditFilled, SearchOutlined } from '@ant-design/icons'
 import { Input, Space, Table } from 'antd'
 import { ColumnsType } from 'antd/es/table'
 import React, { ReactNode, useEffect, useState } from 'react'
-import AddCustomer from './AddCustomer'
 import { useDispatch, useSelector } from 'react-redux'
-import { CustomerState, fetchData } from 'store/slices/customerSlices'
+import { fetchOrder } from 'store/slices/orderSlices'
 import { RootState } from 'store/store'
+import DetailOrder from './DetailOrder'
+import AddOrder from './AddOrder'
 import clsx from 'clsx'
 
-interface ICustomer {
-    id: number
-    name: string
+interface IOrder {
+    code: string
+    date: string
     address: string
-    phone: string
-    transaction?: number
+    customer: any
+    order_items: any
 }
-export default function DigitalAsset() {
-    const dispatch = useDispatch()
-    const [data, setdata] = useState<ICustomer[]>([])
-    const customerState = useSelector((state: RootState) => state.customer)
-    const userState = useSelector((state: RootState) => state.user)
-    useEffect(() => {
-        dispatch(fetchData() as any)
-    }, [])
 
+export default function ListOrder() {
+    const [data, setdata] = useState([])
+    const [selected, setselected] = useState<any>()
+    const [DetailModal, setDetailModal] = useState(false)
     const [addNewModal, setaddNewModal] = useState(false)
     const handleAddNew = (value: any) => {
         const newData: any = [...data, value]
         setdata(newData)
     }
+    const dispatch = useDispatch()
+    const orderState = useSelector((state: RootState) => state.order)
+    const userState = useSelector((state: RootState) => state.user)
+    useEffect(() => {
+        dispatch(fetchOrder() as any)
+    }, [])
 
-    const columns: ColumnsType<ICustomer> = [
+    const columns: ColumnsType<IOrder> = [
         {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
+            title: 'Code',
+            dataIndex: 'code',
+            key: 'code',
             className: 'bg-white',
-            sorter: (a: ICustomer, b: ICustomer) =>
-                a.name.localeCompare(b.name),
+            sorter: (a: IOrder, b: IOrder) => a.code.localeCompare(b.code),
+        },
+        {
+            title: 'Date',
+            dataIndex: 'date',
+            key: 'date',
+            align: 'right',
+            className: 'bg-white',
+            sorter: (a: IOrder, b: IOrder) => a.date.localeCompare(b.date),
+            render(value, record, index) {
+                return value.substring(0, 10)
+            },
         },
         {
             title: 'Address',
             dataIndex: 'address',
             key: 'address',
             className: 'bg-white',
-            sorter: (a: ICustomer, b: ICustomer) =>
+            sorter: (a: IOrder, b: IOrder) =>
                 a.address.localeCompare(b.address),
             responsive: ['md'],
         },
         {
-            title: 'Phone Number',
-            dataIndex: 'phone',
-            key: 'phone',
+            title: 'Customer',
+            dataIndex: 'customer',
+            key: 'customer',
             className: 'bg-white',
-            sorter: (a: ICustomer, b: ICustomer) =>
-                a.phone.localeCompare(b.phone),
+            sorter: (a: IOrder, b: IOrder) =>
+                a.customer?.name.localeCompare(b.customer?.name),
             responsive: ['md'],
+            render(value, record, index) {
+                return <a>{value?.name}</a>
+            },
         },
-        // {
-        //     title: 'Transaction',
-        //     dataIndex: 'transaction',
-        //     key: 'transaction',
-        //     align: 'right',
-        //     className: 'bg-white',
-        //     sorter: (a: ICustomer, b: ICustomer) =>
-        //         (a.transaction || 0) - (b.transaction || 0),
-        //     render(value, record, index) {
-        //         return value || 0
-        //     },
-        // },
+        {
+            title: 'Transaction',
+            key: 'transaction',
+            align: 'right',
+            className: 'bg-white',
+            sorter: (a: IOrder, b: IOrder) =>
+                a.customer?.name.localeCompare(b.customer?.name),
+            responsive: ['md'],
+            render(value, record, index) {
+                const a = record.order_items.reduce(function (
+                    acc: any,
+                    obj: any,
+                ) {
+                    return acc + (obj.qty * obj.price - obj.discount)
+                },
+                0)
+                return <a>{a.toLocaleString('en')}</a>
+            },
+        },
         {
             title: 'Action',
             key: 'action',
@@ -109,23 +127,28 @@ export default function DigitalAsset() {
                         small
                         leftIcon={<DeleteFilled />}
                         label="Detail"
+                        onClick={() => {
+                            setselected({ ...record })
+                            setDetailModal(true)
+                        }}
                         className="text-green-700"
                     />
                 </Space>
             ),
         },
     ]
+
     return (
         <Container>
-            <div className="flex md:flex-row flex-col md:space-y-0 space-y-4 justify-between items-center">
+            <div className="flex md:flex-row flex-col md:space-y-0 space-y-4 justify-between orders-center">
                 <h1
                     className="font-bold text-lg
                 "
                 >
-                    List Customer
+                    List Order
                 </h1>
-                <div className=" flex space-x-2 md:items-center">
-                    <div className="flex  items-center">
+                <div className=" flex space-x-2 md:orders-center">
+                    <div className="flex  orders-center">
                         <div className="date-picker-with-icon">
                             <SearchOutlined />
                             <Input
@@ -144,8 +167,13 @@ export default function DigitalAsset() {
                 </div>
             </div>
 
-            <Table columns={columns} dataSource={customerState.data} />
-            <AddCustomer
+            <Table columns={columns} dataSource={orderState.data} />
+            <DetailOrder
+                data={selected}
+                isOpen={DetailModal}
+                setIsOpen={setDetailModal}
+            />
+            <AddOrder
                 isOpen={addNewModal}
                 setIsOpen={setaddNewModal}
                 isSuccess={handleAddNew}

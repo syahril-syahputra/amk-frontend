@@ -39,3 +39,19 @@ a:active {
     text-decoration: none;
     color: inherit;
 }
+
+.desctable {
+    @apply w-full;
+}
+.desctable tr td {
+    @apply p-2 border;
+}
+.tablelist {
+    @apply w-full;
+}
+.tablelist thead tr th {
+    @apply p-2 border border-newtral-200;
+}
+.tablelist tbody tr td {
+    @apply p-2 border border-newtral-200;
+}
