@@ -9,7 +9,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import auth from '@/services/auth'
-import { verificationAdd } from 'store/slices/verificationSlice'
+// import { verificationAdd } from 'store/slices/verificationSlice'
 import { useDispatch } from 'react-redux'
 import crypto from 'crypto'
 
@@ -72,22 +72,22 @@ export default function Register() {
         // if (isSolved) {
         try {
             // await requestOTP(phoneNumber, email)
-            await auth.submitRegistration({
-                firstName: '',
-                lastName: '',
-                email,
-                password: crypto
-                    .createHash('sha256')
-                    .update(password || '')
-                    .digest('hex'),
-                phoneNumber,
-                referalCode,
-            })
-            dispatch(
-                verificationAdd({
-                    email: email,
-                }),
-            )
+            // await auth.submitRegistration({
+            //     firstName: '',
+            //     lastName: '',
+            //     email,
+            //     password: crypto
+            //         .createHash('sha256')
+            //         .update(password || '')
+            //         .digest('hex'),
+            //     phoneNumber,
+            //     referalCode,
+            // })
+            // dispatch(
+            //     verificationAdd({
+            //         email: email,
+            //     }),
+            // )
             router.push({
                 pathname: '/auth/verification',
             })

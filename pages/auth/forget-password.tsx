@@ -30,7 +30,7 @@ export default function ForgetPassword() {
     const email = watch('email')
     const onsubmit = async (data: FormInputs) => {
         try {
-            await auth.resendEmailForgetPassword(data.email)
+            // await auth.resendEmailForgetPassword(data.email)
             setisSended(true)
         } catch (error: any) {
             setError('email', { message: error?.response.data.message })
