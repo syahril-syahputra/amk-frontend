@@ -6,7 +6,7 @@ import User from './User'
 
 function Header() {
     return (
-        <div className="bg-white ">
+        <div className="bg-white py-2">
             <div className="container box-border flex flex-row justify-between items-center">
                 <Link href="/">
                     <Image
@@ -18,6 +18,7 @@ function Header() {
                         alt="Crypto Swap"
                     />
                 </Link>
+
                 <Nav />
                 <User />
             </div>

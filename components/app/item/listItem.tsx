@@ -2,62 +2,43 @@ import Action from '@/components/common/Action'
 import { Button } from '@/components/common/Button'
 import Container from '@/components/common/Container'
 import { api } from '@/services/axios'
-import {
-    DeleteFilled,
-    EditFilled,
-    MoreOutlined,
-    SearchOutlined,
-} from '@ant-design/icons'
+import { DeleteFilled, EditFilled, SearchOutlined } from '@ant-design/icons'
 import { Input, Space, Table } from 'antd'
 import { ColumnsType } from 'antd/es/table'
-import Image from 'next/image'
-import Link from 'next/link'
 import React, { ReactNode, useEffect, useState } from 'react'
-import AddCustomer from './AddCustomer'
+import AddItem from './AddItem'
 
-interface ICustomer {
-    id: number
+interface IItem {
+    uuid: string
     name: string
-    address: string
-    phone: string
-    transaction?: number
+    price: number
+    description: string
 }
-const columns: ColumnsType<ICustomer> = [
+
+const columns: ColumnsType<IItem> = [
     {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
         className: 'bg-white',
-        sorter: (a: ICustomer, b: ICustomer) => a.name.localeCompare(b.name),
+        sorter: (a: IItem, b: IItem) => a.name.localeCompare(b.name),
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
-        className: 'bg-white',
-        sorter: (a: ICustomer, b: ICustomer) =>
-            a.address.localeCompare(b.address),
-        responsive: ['md'],
-    },
-    {
-        title: 'Phone Number',
-        dataIndex: 'phone',
-        key: 'phone',
-        className: 'bg-white',
-        sorter: (a: ICustomer, b: ICustomer) => a.phone.localeCompare(b.phone),
-        responsive: ['md'],
-    },
-    {
-        title: 'Transaction',
-        dataIndex: 'transaction',
-        key: 'transaction',
+        title: 'price',
+        dataIndex: 'price',
+        key: 'proce',
         align: 'right',
         className: 'bg-white',
-        sorter: (a: ICustomer, b: ICustomer) =>
-            (a.transaction || 0) - (b.transaction || 0),
-        render(value, record, index) {
-            return value || 0
-        },
+        sorter: (a: IItem, b: IItem) => a.price - b.price,
+    },
+    {
+        title: 'Description',
+        dataIndex: 'description',
+        key: 'description',
+        className: 'bg-white',
+        sorter: (a: IItem, b: IItem) =>
+            a.description.localeCompare(b.description),
+        responsive: ['md'],
     },
     {
         title: 'Action',
@@ -88,23 +69,22 @@ const columns: ColumnsType<ICustomer> = [
         ),
     },
 ]
-export default function DigitalAsset() {
-    const [data, setdata] = useState<ICustomer[]>([])
-    useEffect(() => {
-        const newData: any = []
-        const fetchData = async () => {
-            const data = await api.get('/customer')
-            if (data) setdata(data.data as any)
-        }
-
-        fetchData().catch(console.error)
-    }, [])
-
+export default function ListItem() {
+    const [data, setdata] = useState([])
     const [addNewModal, setaddNewModal] = useState(false)
     const handleAddNew = (value: any) => {
         const newData: any = [...data, value]
         setdata(newData)
     }
+    useEffect(() => {
+        const newData: any = []
+        const fetchData = async () => {
+            const data = await api.get('/items')
+            if (data) setdata(data.data as any)
+        }
+
+        fetchData().catch(console.error)
+    }, [])
     return (
         <Container>
             <div className="flex md:flex-row flex-col md:space-y-0 space-y-4 justify-between items-center">
@@ -112,7 +92,7 @@ export default function DigitalAsset() {
                     className="font-bold text-lg
                 "
                 >
-                    List Customer
+                    List Item
                 </h1>
                 <div className=" flex space-x-2 md:items-center">
                     <div className="flex  items-center">
@@ -133,7 +113,7 @@ export default function DigitalAsset() {
             </div>
 
             <Table columns={columns} dataSource={data} />
-            <AddCustomer
+            <AddItem
                 isOpen={addNewModal}
                 setIsOpen={setaddNewModal}
                 isSuccess={handleAddNew}

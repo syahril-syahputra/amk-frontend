@@ -4,17 +4,9 @@ const nextConfig = {
     async rewrites() {
         return [
             {
-                source: '/cryptoswap/:path*',
+                source: '/:path*',
                 destination: `${process.env.NEXT_PUBLIC_API_URL}${process.env.NEXT_PUBLIC_API_URL_ADDRESS}/:path*`,
-            },
-            {
-                source: '/cryptowat/:path*',
-                destination: `https://api.cryptowat.ch/:path*`,
-            },
-            {
-                source: '/coinmarketcap/:path*',
-                destination: `https://pro-api.coinmarketcap.com/v2/:path*`,
-            },
+            }
         ]
     },
     // exportPathMap: async function (

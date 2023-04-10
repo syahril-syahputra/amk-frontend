@@ -1,14 +1,12 @@
 import ListCustomer from '@/components/app/dashboard/ListCustomer'
+import ListItem from '@/components/app/item/listItem'
 import LayoutDefault from '@/components/layout/LayoutDefault'
 import React from 'react'
-import withAuth from 'utils/withAuth'
 
-function Index() {
+export default function Index() {
     return (
         <LayoutDefault>
-            <ListCustomer />
+            <ListItem />
         </LayoutDefault>
     )
 }
-
-export default withAuth(Index)

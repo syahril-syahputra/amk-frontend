@@ -33,7 +33,7 @@ const Item = ({ name, href }: ItemProps) => {
 
 const Nav = () => {
     return (
-        <nav className=" inline-block space-x-4 list-none ">
+        <nav className="md:inline-block hidden space-x-4 list-none ">
             <Item href="/" name="customer" />
             <Item href="/item" name="data item" />
             <Item href="/order" name="data order" />

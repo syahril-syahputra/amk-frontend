@@ -24,7 +24,7 @@ export const Button = ({
     isLoading,
 }: ButtonProps) => {
     return isLoading ? (
-        <div className="flex justify-center items-center space-x-2 py-4">
+        <div className="inline-flex justify-center items-center space-x-2 py-4">
             <Spin /> <span className="text-newtral-500 font-bold">Loading</span>
         </div>
     ) : (

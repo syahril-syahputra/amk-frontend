@@ -47,14 +47,10 @@ function FormLogin(props: FormLoginProps) {
         try {
             const result = await auth.submitLogin({
                 ...data,
-                password: crypto
-                    .createHash('sha256')
-                    .update(data.password || '')
-                    .digest('hex'),
             })
-            const json = result.data.data
+            const json = result.data
 
-            Cookies.set('accessToken', json.token)
+            Cookies.set('accessToken', json.access_token)
             dispatch(
                 setUserLogin({
                     isLogin: true,
@@ -64,22 +60,22 @@ function FormLogin(props: FormLoginProps) {
             )
         } catch (error: any) {
             if (error?.response.status === 401) {
-                seterror(error?.response.data.message)
+                seterror('Username or password not found!')
                 return
             }
 
-            if (error?.response.status === 400) {
-                // console.log(error?.response.data)
-                // error?.response.data.map((item: any) => {
-                //     setError(item.fieldName, {
-                //         type: 'server',
-                //         message: item.errorMessage,
-                //     })
-                // })
-                seterror(error?.response.data.message)
-                return
-            }
-            seterror(error?.response.data.message + ' : Something Wrong')
+            // if (error?.response.status === 400) {
+            //     // console.log(error?.response.data)
+            //     // error?.response.data.map((item: any) => {
+            //     //     setError(item.fieldName, {
+            //     //         type: 'server',
+            //     //         message: item.errorMessage,
+            //     //     })
+            //     // })
+            //     seterror(error?.response.data.message)
+            //     return
+            // }
+            seterror(error?.response.status + ' : Something Wrong')
         }
     }
     return (
